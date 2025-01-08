@@ -87,21 +87,21 @@ window.addEventListener("load", () => {
 
         const parentMesh = new THREE.Mesh(parentGeometry, parentMaterial);
         parentMesh.position.set(0, 0, 0);
-        parentMesh.rotation.x = THREE.Math.degToRad(-20);
-        parentMesh.rotation.y = THREE.Math.degToRad(20);
+        parentMesh.rotation.x = THREE.MathUtils.degToRad(-20);
+        parentMesh.rotation.y = THREE.MathUtils.degToRad(20);
         scene.add(parentMesh);
 
         const distance = 17.5;
         const heightOffset = 5;
         const offsetX = distance * Math.sin(THREE.MathUtils.degToRad(20));
-        const offsetZ = distance * Math.sin(THREE.MathUtils.degToRad(20));
+        const offsetZ = distance * Math.cos(THREE.MathUtils.degToRad(20));
 
         camera.position.set(offsetX, heightOffset, offsetZ);
         camera.lookAt(0, -2, 0);
         camera.rotation.z = THREE.MathUtils.degToRad(-5);
 
         const slidesTitles = [
-            'Feild Unit',
+            'Field Unit',
             'Astral Convergence',
             'Eclipse Core',
             'Luminous',
@@ -176,7 +176,7 @@ window.addEventListener("load", () => {
         }
 
         let currentScroll = 0;
-        lenis.on("scroll", ({ scroll, limit , velocity , direction, progress }) => {
+        lenis.on("scroll", ({ scroll, limit, velocity, direction, progress }) => {
             currentScroll = scroll / limit;
             updateTexture(-currentScroll);
             renderer.render(scene, camera);
