@@ -1,4 +1,4 @@
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
     const lenis = new Lenis();
     function raf(time) {
         lenis.raf(time);
@@ -26,7 +26,7 @@ window.addEventListener('load', () => {
                     initializeScene();
                 }
             };
-            img.src = `./assets/images${i}.jpg`;    
+            img.src = `./assets/images/${i}.jpg`;    
         }
     }
 
