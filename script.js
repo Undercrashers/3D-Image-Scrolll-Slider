@@ -34,9 +34,9 @@ window.addEventListener("load", () => {
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({
-            canvas : document.querySelector('#canvas'),
+            canvas : document.querySelector("#canvas"),
             antialias: true,
-            powerPreference: 'high-performance',
+            powerPreference: "high-performance",
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -45,10 +45,10 @@ window.addEventListener("load", () => {
         const parentWidth = 20;
         const parentHeight = 75;
         const curvature = 35;
-        const segmentX = 200;
-        const segmentY = 200;
+        const segmentsX = 200;
+        const segmentsY = 200;
 
-        const parentGeometry = new THREE.PlaneGeometry(parentWidth, parentHeight, segmentX, segmentY);
+        const parentGeometry = new THREE.PlaneGeometry(parentWidth, parentHeight, segmentsX, segmentsY);
 
         const positions = parentGeometry.attributes.position.array;
         
@@ -60,14 +60,14 @@ window.addEventListener("load", () => {
         parentGeometry.computeVertexNormals();
 
         const totalSlides = 7;  
-        const slideWidth = 15;
+        const slideHeight = 15;
         const gap = 0.5;
-        const cycleHeight = totalSlides * (slideWidth + gap);
+        const cycleHeight = totalSlides * (slideHeight + gap);
 
-        const textureCanvas = document.createElement('canvas'); 
-        const ctx = textureCanvas.getContext('2d' ,{
+        const textureCanvas = document.createElement("canvas"); 
+        const ctx = textureCanvas.getContext("2d" ,{
             alpha: false,
-            willReadFrequently: true,
+            willReadFrequently: false,
         });
 
         textureCanvas.width = 2048;
@@ -93,12 +93,12 @@ window.addEventListener("load", () => {
 
         const distance = 17.5;
         const heightOffset = 5;
-        const offsetX = distance * Math.sin(THREE.Math.degToRad(20));
-        const offsetY = distance * Math.sin(THREE.Math.degToRad(20));
+        const offsetX = distance * Math.sin(THREE.MathUtils.degToRad(20));
+        const offsetZ = distance * Math.sin(THREE.MathUtils.degToRad(20));
 
-        camera.position.set(offsetX, heightOffset, offsetY);
+        camera.position.set(offsetX, heightOffset, offsetZ);
         camera.lookAt(0, -2, 0);
-        camera.rotation.z = THREE.Math.degToRad(-5);
+        camera.rotation.z = THREE.MathUtils.degToRad(-5);
 
         const slidesTitles = [
             'Feild Unit',
@@ -116,13 +116,13 @@ window.addEventListener("load", () => {
 
             const fontSize = 180;
             ctx.font = `500 ${fontSize}px Dahlia`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
 
             const extraSlides = 2;  
 
             for(let i = -extraSlides; i < totalSlides + extraSlides; i++){
-                let slideY = -i * (slideWidth + gap) ;
+                let slideY = -i * (slideHeight + gap) ;
                 slideY += offset * cycleHeight;
 
                 const textureY = (slideY / cycleHeight) * textureCanvas.height;
@@ -138,10 +138,10 @@ window.addEventListener("load", () => {
                     x: textureCanvas.width * 0.05,
                     y: wrappedY,
                     width: textureCanvas.width * 0.9,
-                    height: (slideWidth/ cycleHeight) * textureCanvas.height,
+                    height: (slideHeight/ cycleHeight) * textureCanvas.height,
                 };
 
-                const img = images[slideIndex -1];
+                const img = images[slideNumber -1];
                 if(img){
                     const imgAspect = img.width / img.height;   
                     const rectAspect = slideRect.width / slideRect.height;
@@ -168,12 +168,11 @@ window.addEventListener("load", () => {
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                     ctx.restore();
 
-                    ctx.fillStyle = '#fff';
-                    ctx.fillText(slidesTitles[slideIndex], textureCanvas.width / 2, wrappedY + slideRect.height / 2);
-
-                    texture.needsUpdate = true;
+                    ctx.fillStyle = "white";
+                    ctx.fillText(slidesTitles[slideIndex], textureCanvas.width / 2, wrappedY + slideRect.height / 2);       
                 }
             }
+            texture.needsUpdate = true;
         }
 
         let currentScroll = 0;
@@ -184,7 +183,7 @@ window.addEventListener("load", () => {
         });
 
         let resizeTimeout;
-        window.addEventListener('resize', () => {
+        window.addEventListener("resize", () => {
            if(resizeTimeout){
                clearTimeout(resizeTimeout);
            }
